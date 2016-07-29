@@ -73,5 +73,6 @@ echo
 /etc/init.d/network restart
 echo
 ifconfig eth0  
+IPADDR=$(ifconfig eth0 | grep 'inet addr' | awk ' { print $2 } ' | cut -d : -f 2) && echo "$IPADDR $HOSTNAME" >> /etc/hosts && cat /etc/hosts
 
 #EnD 
