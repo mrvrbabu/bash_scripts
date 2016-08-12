@@ -27,7 +27,7 @@ zone "homeoffice.net" IN {
 	allow-update { none; };
 };
 
-zone "0.2.168.192.in-addr.arpa" IN {
+zone "2.168.192.in-addr.arpa" IN {
 	type master;
 	file "homeoffice.net.reverse";
 	allow-update { none; };
@@ -61,7 +61,7 @@ cat << EOF > /var/named/homeoffice.net.reverse
 	NS	@
 	A       192.168.2.10	
 	AAAA	::1
-	PTR	masterserver.
+10	PTR	masterserver.homeoffice.net
 11      PTR     savithababu001.homeoffice.net 
 
 EOF
@@ -80,5 +80,6 @@ echo "nameserver 192.168.2.10" >> /etc/resolv.conf
 dig @localhost savithababu001.homeoffice.net 
 dig @localhost masterserver.homeoffice.net 
 
+echo "Please disable/allow IPTABLES if required to be allowd from other clients"
 #EnD 
 
