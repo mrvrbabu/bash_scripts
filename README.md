@@ -8,3 +8,5 @@ This script will install and configure the dhcpd server and service on the targe
 
 About "linuxbox_as_router_rhel7centos7.sh"
 This script will configure your RHEL7 or CentOS7 hosts as linux router/gateway. 
+
+The "dns-install_configure.sh" will install a bind dns server on RHEL/CentOS 7 with basic configuration, be ready to provide the IP address on which the server will accept queries from clients. More enhancements to follow. 
