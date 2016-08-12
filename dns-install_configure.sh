@@ -70,6 +70,7 @@ netstat -nulp | grep :53
 sleep 3
 systemctl status named  
 systemctl start named 
+systemctl enable named 
 systemctl status named  
 sleep 3
 netstat -nulp | grep :53
