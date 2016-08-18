@@ -5,7 +5,7 @@
 # Purpose : FreeIPA Directory Service status check RUNNING/STOPPED and start if down
 
 
-#Get the service status 
+##Get the service status 
 status=$(/usr/sbin/ipactl status 2> /root/ipastatus_check.log | awk ' { print $3 } ')
 for ipastatus in $status
 do
