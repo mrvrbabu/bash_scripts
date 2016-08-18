@@ -11,7 +11,7 @@ ip a
 echo 
 read -p "Please entry the ip address dns will listen to : " IPADDR
 
-yum -y  install bind 
+yum -y  install bind bind-utils 
 
 
 sed -i "s/localhost/any/g" /etc/named.conf
