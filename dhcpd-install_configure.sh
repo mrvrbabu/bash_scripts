@@ -19,7 +19,7 @@ echo
 printf "Installing dhcpd package"
 echo 
 sleep 2
-#yum install dhcp
+yum -y install dhcp
 
 cat << EOF > /etc/dhcp/dhcpd.conf
 subnet 192.168.2.0 netmask 255.255.255.0 {
