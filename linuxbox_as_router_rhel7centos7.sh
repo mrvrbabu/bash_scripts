@@ -11,15 +11,16 @@ ip a | grep enp
 ip a | grep eth  
 echo
 sleep 3 
-read -t 5 -p "Please select the Ethernet nic for outboud traffic i.e to allow outside world access ex:- eth0, eth1, enp123, enp456 : " ethnic0
+read -p "Please select the Ethernet nic for outboud traffic i.e to allow outside world access ex:- eth0, eth1, enp123, enp456 : " ethnic0
 echo 
-read -t 5 -p  "Please select the Ethernet nic for inbound traffic i.e the LAN to allow outside world access ex:- eth0, eth1, enp123, enp456 : " ethnic1
+read -p  "Please select the Ethernet nic for inbound traffic i.e the LAN to allow outside world access ex:- eth0, eth1, enp123, enp456 : " ethnic1
 echo $ethnic0
 echo $ethnic1
 
-yum install iptables-services iptables-utils 
+yum install iptables-services iptables-utils -y  
 systemctl stop firewalld
 systemctl disable firewalld
+yum remove firewalld -y 
 systemctl enable iptables
 systemctl start iptables  
 cat /etc/sysconfig/iptables
