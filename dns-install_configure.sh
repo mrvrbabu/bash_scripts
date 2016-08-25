@@ -1,3 +1,6 @@
+#!/bin/bash
+
+
 #Author 	: RameshBabu
 #Date		: Aug 2016
 #Purpose	: To install and configure bind dns server on RHEL/CentOS7
@@ -44,9 +47,12 @@ cat << EOF > /var/named/homeoffice.net.forward
 					3H )	; minimum
 	NS	@
 	A       192.168.2.10
-masterserver  A 192.168.2.10
-savithababu001 A 192.168.2.11	
-
+masterserver IN A      192.168.2.10
+webserver001 IN A      192.168.2.11	
+mail         IN A      192.168.2.12
+web          IN CNAME webserver001
+www          IN TXT "Webserver: Main webserver for this domain"
+homeoffice.net IN MX 3 mail.homeoffice.net 
 EOF
 
 
@@ -62,7 +68,8 @@ cat << EOF > /var/named/homeoffice.net.reverse
 	A       192.168.2.10	
 	AAAA	::1
 10	PTR	masterserver.homeoffice.net
-11      PTR     savithababu001.homeoffice.net 
+11      PTR     webserver001.homeoffice.net 
+12      PTR     mail.homeoffice.net
 
 EOF
 
@@ -75,10 +82,14 @@ systemctl status named
 sleep 3
 netstat -nulp | grep :53
 echo "search homeoffice.net" > /etc/resolv.conf
-echo "nameserver 192.168.2.10" >> /etc/resolv.conf
+echo "nameserver $IPADDR" >> /etc/resolv.conf
 
-dig @localhost savithababu001.homeoffice.net 
-dig @localhost masterserver.homeoffice.net 
+dig @$IPADDR webserver001.homeoffice.net 
+dig @$IPADDR masterserver.homeoffice.net 
+dig @$IPADDR -t MX homeoffice.net  
+dig @$IPADDR -t TXT www.homeoffice.net  
+dig -x 192.168.2.12
+dig -x 192.168.2.11
 
 echo "Please disable/allow IPTABLES if required to be allowd from other clients"
 #EnD 
