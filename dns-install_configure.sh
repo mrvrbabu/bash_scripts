@@ -12,7 +12,7 @@ echo
 
 ip a 
 echo 
-read -p "Please entry the ip address dns will listen to : " IPADDR
+read -p "Please enter the ip address dns will listen to : " IPADDR
 
 yum -y  install bind bind-utils 
 
@@ -39,38 +39,44 @@ EOF
 
 cat << EOF > /var/named/homeoffice.net.forward 
 \$TTL 1D
+\$ORIGIN homeoffice.net.
 @	IN SOA	@ homeoffice.net. (
-					1	; serial
+					2016082703	; serial
 					1D	; refresh
 					1H	; retry
 					1W	; expire
 					3H )	; minimum
-	NS	@
-	A       192.168.2.10
+	     IN NS masterserver.homeoffice.net.
+	     IN NS slavedns001.homeoffice.net.	
 masterserver IN A      192.168.2.10
+slavedns001  IN A      192.168.2.14
+masterserver IN TXT    "DNS master for homeoffice.net"
 webserver001 IN A      192.168.2.11	
 mail         IN A      192.168.2.12
 web          IN CNAME webserver001
 www          IN TXT "Webserver: Main webserver for this domain"
 homeoffice.net IN MX 3 mail.homeoffice.net 
+ns1          IN CNAME masterserver.homeoffice.net.
+ns2          IN CNAME slavedns001.homeoffice.net.
+slavedns001  IN TXT    "Secondary dns for homeoffice.net" 
 EOF
 
 
 cat << EOF > /var/named/homeoffice.net.reverse
 \$TTL 1D
+\$ORIGIN 2.168.192.in-addr.arpa.
 @	IN SOA	@ homeoffice.net. (
-					1	; serial
+					2016082703	; serial
 					1D	; refresh
 					1H	; retry
 					1W	; expire
 					3H )	; minimum
-	NS	@
-	A       192.168.2.10	
-	AAAA	::1
-10	PTR	masterserver.homeoffice.net
-11      PTR     webserver001.homeoffice.net 
-12      PTR     mail.homeoffice.net
-
+	IN NS   masterserver.homeoffice.net.
+	IN NS   slavedns001.homeoffice.net. 
+10	PTR	masterserver.homeoffice.net.
+11      PTR     webserver001.homeoffice.net. 
+12      PTR     mail.homeoffice.net.
+14      PTR     slavedns001.homeoffice.net.
 EOF
 
 netstat -nulp | grep :53
@@ -90,6 +96,7 @@ dig @$IPADDR -t MX homeoffice.net
 dig @$IPADDR -t TXT www.homeoffice.net  
 dig -x 192.168.2.12
 dig -x 192.168.2.11
+dig axfr homeoffice.net @$IPADDR
 
 echo "Please disable/allow IPTABLES if required to be allowd from other clients"
 #EnD 
