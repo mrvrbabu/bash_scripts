@@ -13,8 +13,8 @@ echo
 ip a 
 echo 
 read -p "Please enter the ip address dns will listen to : " IPADDR
-
-read -p "Please enter the IP Address of the master dns server : " MASTERS
+echo 
+read -p "Please enter the iP Address of the master dns server : " MASTERS
 yum -y  install bind bind-utils 
 
 
