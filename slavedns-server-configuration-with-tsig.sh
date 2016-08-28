@@ -40,6 +40,15 @@ zone "2.168.192.in-addr.arpa" IN {
 	masters { $MASTERS; };
 };
 EOF
+
+cat << NAMED >> /etc/named.transfer.conf
+server 192.168.2.10 {
+        keys { master-slave.homeoffice.net.; };
+};
+NAMED
+
+echo "include \"/etc/named.transfer.conf\";" >> /etc/named.conf 
+
 netstat -nulp | grep :53
 sleep 3
 systemctl status named  
@@ -64,4 +73,3 @@ dig -t NS homeoffice.net $IPADDR
 
 echo "Please disable/allow IPTABLES if required to be allowd from other clients"
 #EnD 
-
