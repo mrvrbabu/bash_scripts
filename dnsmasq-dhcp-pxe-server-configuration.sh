@@ -41,7 +41,7 @@ dhcp-option=6,192.168.2.10
 #Network broadcast 
 dhcp-option=28,192.168.2.255
 #Dhcp pxe boot menu options
-pxe-prompt="Press F8 for menu.", 30 
+pxe-prompt="Press F8 for menu.", 15 
 pxe-service=x86PC, "Boot to Local Hard Disk"
 pxe-service=x86PC, "Install CentOS 7", pxelinux
 enable-tftp
