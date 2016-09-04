@@ -65,6 +65,7 @@ cat /etc/grub.conf
 echo "###########Final step - copying the kernel and initrd to /boot and updating grub.conf file ###############" 
 make install
 
+sed -i.backup 's/default=1/default=0/g' /boot/grub/grub.conf
 echo "/etc/grub.conf file updated" 
 cat /etc/grub.conf 
 ls -l /boot 
